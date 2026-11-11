@@ -1,8 +1,9 @@
 # Garmin Navigation — Project Status
 
-**Master Plan:** 1.0.0  
+**Master Plan:** 1.1.0  
 **Product baseline:** A0 v2.0.0  
 **A1–A7 specification revision:** 2.0.0  
+**A8 UX specification:** 1.0.0  
 **Updated:** 2026-11-11  
 **Phase:** A — Product & System Design  
 **Product direction:** B — Google Maps + komoot experience (not API/data coupling)  
@@ -12,15 +13,15 @@
 
 ## Current result
 
-A0–A7 have been re-baselined for the current product direction and stored in this repository. The A0–A7 files are design specifications, not implemented features. Acceptance tests are proposed test cases and have not been run.
+A0–A7 were re-baselined for the current direction and committed in `f83c192`. A8 UX specification is now complete at design/specification level and committed separately. All documents describe intended behavior and verification criteria; they do not prove implementation or test execution.
 
 ## Next work package
 
-**A8 — UX Specification & Acceptance Criteria.** Define the full phone/watch information architecture, screen and state catalogue, map/search/route planning/navigation/discovery/trip/Garmin flows, fēnix 6S HUD behavior, errors and empty states, accessibility, interaction safety and measurable UX release gates.
+**A9 — Design Review & Freeze.** Audit traceability from A0 product scope → A1 requirements → A2 provider/data policy → A3 schema → A4 transfer → A5 Garmin capability → A6 navigation logic → A7 recovery/privacy/power → A8 screens/states. Resolve blockers or explicitly accept them as limitations/deferred work/release blockers. Produce an implementation backlog and only then mark DESIGN FROZEN.
 
-After A8, perform **A9 Design Review & Freeze**. Do not begin production Flutter or Monkey C implementation until A9 explicitly marks the design **DESIGN FROZEN** and lists every unresolved blocker.
+Do not start production Flutter or Monkey C implementation until A9 explicitly approves the design and lists all residual risks.
 
-## Re-baselined work packages
+## Work package state
 
 | Package | State | Deliverable |
 |---|---|---|
@@ -31,48 +32,48 @@ After A8, perform **A9 Design Review & Freeze**. Do not begin production Flutter
 | A4 Garmin sync protocol | Complete at spec level; uplink gate open | `docs/04_GARMIN_SYNC_PROTOCOL_A4.md` |
 | A5 Garmin capability matrix | Complete at research/spec level; hardware gates open | `docs/05_GARMIN_CAPABILITY_MATRIX_A5.md` |
 | A6 Navigation engine | Complete at algorithm-spec level; calibration open | `docs/06_NAVIGATION_ENGINE_A6.md` |
-| A7 Offline/recovery/privacy/battery | Complete at policy-spec level; real-device measurements open | `docs/07_OFFLINE_RECOVERY_PRIVACY_BATTERY_A7.md` |
-| A8 UX specification | Next | `docs/08_UX_SPECIFICATION_A8.md` |
-| A9 Design review & freeze | Not started | `docs/09_DESIGN_FREEZE_A9.md` |
+| A7 Offline/recovery/privacy/battery | Complete at policy-spec level; measurements open | `docs/07_OFFLINE_RECOVERY_PRIVACY_BATTERY_A7.md` |
+| A8 UX specification | Complete at design-spec level; wireframe/usability validation pending | `docs/08_UX_SPECIFICATION_A8.md` |
+| A9 Design review & freeze | Next | `docs/09_DESIGN_FREEZE_A9.md` |
 
 ## Product and technical decisions
 
-- Product experience: fast daily destination search and turn-by-turn navigation, plus saved places, multi-stop trip planning and curated discovery.
-- Target market/validation region: Vietnam first, with Hanoi as the initial field-test area.
-- Primary travel modes: motorbike/scooter, car, walking and bicycle. Motorbike is the first validation priority. Hiking/MTB and EV-specific routing are later decisions.
-- Phone is the primary map/search/planning/navigation surface; Garmin is the glanceable companion and cached-route follower.
-- Map/rendering candidate: MapLibre-compatible renderer with a licensed OSM-derived tile service.
-- Routing candidate: self-hosted Valhalla; test `motor_scooter` first for common Vietnamese motorbike travel. `motorcycle` remains beta and must be compared rather than assumed superior.
+- Product experience: fast daily destination search and turn-by-turn navigation, plus multi-stop trip planning, saved journeys and place discovery.
+- Initial market/validation: Vietnam, with Hanoi as the initial field-test area.
+- P0 travel modes: motorbike/scooter, car, walking and bicycle. Motorbike is first validation priority.
+- Phone is primary map/search/planning/navigation; Garmin fēnix 6S is a glanceable companion and cached-route follower.
+- Map/rendering candidate: MapLibre-compatible renderer with licensed OSM-derived tiles.
+- Routing candidate: self-hosted Valhalla; test `motor_scooter` first for common Vietnamese motorbike travel. `motorcycle` is beta and needs separate validation.
 - Search candidate: Photon pilot; compare Pelias for Vietnamese addresses/POIs.
-- Google Maps Platform is not the default provider for the Garmin/offline route pipeline. Current terms for non-EEA billing accounts restrict Routes/Places/Geocoding content from use with non-Google maps; Routes coordinate values have a temporary 30-day cache limit. Any Google-only map mode must be separately isolated and reviewed.
-- komoot has no publicly accessible API. Use it as a UX reference only; do not scrape or depend on private endpoints.
-- fēnix 6S base model uses a custom renderer. The official MapView supported-device list includes 6S Pro/Sapphire variants, not base 6S.
-- `Communications.transmit()` is documented as Since API 4.0.4 while compatible-device lists show fēnix 6S at API 3.4 and the method supported-device list includes 6S. Uplink, app ACK and watch-originated events remain conditional until verified on exact hardware/firmware.
-- The watch stores a compact route and maneuver payload, not full phone map tiles or POI catalogs.
-- No production code before A9.
+- Google Maps Platform is not the default provider for the Garmin/offline route pipeline. Current terms for non-EEA billing accounts restrict Routes/Places/Geocoding content from use with non-Google maps; temporary route-coordinate caching is limited. A Google-only map mode would require isolated design/legal review.
+- komoot has no publicly accessible API; use as UX reference only.
+- Base fēnix 6S uses a custom renderer; native MapView is only for listed Pro/Sapphire variants after exact-device verification.
+- `Communications.transmit()` documentation/API-level mismatch remains unresolved for API 3.4 6S devices; uplink is a verification gate.
 
-## Open blockers
+## Open blockers and risks
 
-1. Exact fēnix 6S model (base vs Pro/Sapphire), firmware and Connect IQ app compatibility.
-2. Whether watch-to-phone `Communications.transmit()` can compile and deliver reliably on the chosen API 3.4 watch.
-3. Phone OS targets and exact Garmin Mobile SDK / Flutter bridge integration.
-4. Valhalla profile quality and access restrictions for Hanoi motorbike routes, including prohibited roads and road-class edge cases.
-5. Photon vs Pelias quality for Vietnamese place/address search.
-6. Licensed tile provider and offline/prefetch permissions; public OSM standard tile servers are not an offline tile source.
-7. Multi-stop route support and alternatives behavior per selected routing provider.
-8. Route-matching thresholds and alert timing require GPS trace replay and physical calibration.
-9. Offline storage quota, battery drain and long-route limits need physical measurements.
-10. UX usability, legibility and riding/vehicle safety review remain to be completed in A8/A9.
+1. Exact watch model, firmware and Connect IQ compatibility.
+2. `transmit()` compile/runtime/physical delivery on API 3.4 fēnix 6S.
+3. Exact Android/iOS targets and Garmin Mobile SDK bridge.
+4. Hanoi motorbike profile quality and road access restrictions.
+5. Photon vs Pelias Vietnamese search relevance.
+6. Licensed map tile provider and offline rights.
+7. Multi-stop provider capability and alternatives behavior.
+8. Navigation thresholds require deterministic replay and field calibration.
+9. Offline storage, route length, battery and checkpoint policies need measurements.
+10. A8 wireframes and usability sessions remain to be produced before A9.
+11. No physical Garmin prototype test has been executed.
 
 ## Validation truth
 
-- No automated acceptance test has been executed.
+- No automated acceptance test has been run.
 - No API provider is deployed.
-- No Flutter or Connect IQ app source is in this repository yet.
+- No Flutter or Connect IQ production source exists in this repository.
 - No BLE throughput, route-transfer, storage, GPS, haptic, rendering or battery bench test has been completed.
-- No field route in Hanoi has been verified.
-- No design freeze has been approved.
+- No Hanoi route field fixture has been verified.
+- No usability test/wireframe test has been conducted.
+- Design freeze is not approved.
 
 ## Continuation rule
 
-When the user says “tiếp tục phát triển”, read this file and the Master Plan, then continue exactly from the next unfinished package. Do not repeat questions already answered. Do not begin production implementation before A9 design freeze. Update Project Status, Master Plan, Changelog and Continuation Prompt after every accepted milestone.
+When the user says “tiếp tục phát triển”, read this file and the Master Plan, then continue exactly from A9. Do not repeat decisions already recorded. Do not begin production implementation before A9 design freeze. Update the relevant package, Project Status, Master Plan, Changelog and Continuation Prompt; commit and verify the change on GitHub.

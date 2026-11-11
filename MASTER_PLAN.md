@@ -1,141 +1,114 @@
 # Garmin Navigation — Master Product & Engineering Plan
 
 **Document ID:** GN-MASTER-001  
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Updated:** 2026-11-11  
-**Status:** A0–A7 re-baselined; A8 UX specification next; not design-frozen  
+**Status:** A0–A8 complete at specification level; A9 design review/freeze next  
 **Primary target:** Flutter phone app + Garmin Connect IQ app for fēnix 6S family
 
 ## 1. Product direction
 
-The project adopts **direction B: Google Maps + komoot** as a product-experience reference:
+Adopt **direction B: Google Maps + komoot experience**:
+- Google Maps-like utility: fast search, current-location map, destination selection, practical route comparison, daily turn-by-turn.
+- komoot-like journey layer: multi-stop planning, saved routes, route notes and discovery.
+- Differentiator: Vietnamese motorbike support and glanceable Garmin route guidance.
 
-- Google Maps-like utility: fast search, current-location map, destination selection, practical route comparison, daily turn-by-turn navigation.
-- komoot-like journey layer: multi-stop planning, saved routes/places, route notes and curated discovery.
-- Differentiator: travel modes include motorized two-wheelers and cars, while navigation can be handed to a Garmin fēnix 6S.
-
-The product is not affiliated with or a clone of Google or komoot. It must not scrape their websites or rely on non-public APIs. "Google Maps + komoot" is not a decision to combine their map or route datasets.
+This is a product-design reference, not affiliation, cloning, scraping or permission to reuse data. It is not a decision to combine Google/komoot APIs or content.
 
 ## 2. Target users and region
 
-Initial validation region is Vietnam, starting with Hanoi. The first high-priority use case is everyday motorbike navigation. Secondary use cases are car journeys, walking and bicycle trips. Discovery and planned journeys expand the app beyond a simple Garmin route uploader.
+Initial validation region is Vietnam, starting with Hanoi. Everyday motorbike navigation is the first priority. Secondary modes are car, walking and bicycle. Discovery and planned journeys extend the product beyond a route uploader.
 
-The exact customer segment, commercial model, cloud account strategy and release geography remain open and are not needed to freeze the first local MVP.
+Customer segment, commercial model, cloud account strategy and release geography remain open.
 
-## 3. Product surfaces
+## 3. Product surfaces and information architecture
 
-1. **Phone app — primary:** map, search, place details, route preview, turn-by-turn, audio, discovery, multi-stop plans, trip history, settings and Garmin management.
-2. **Garmin fēnix 6S — companion:** glanceable next-turn instruction, distance-to-turn, simple route display, GPS/route state, haptic cue and cached-route continuation within documented device limits.
+Phone primary navigation has five destinations: **Map, Explore, Plan, Trips, Garmin**. Settings/profile are reached from the app bar. Active navigation is a dedicated full-screen guidance mode.
 
-Phone and watch capabilities are intentionally asymmetric. Full place search, map exploration, multi-stop editing and rerouting belong on the phone.
+- **Phone:** map, search, place details, route preview, turn-by-turn, discovery, multi-stop plans, trip history, settings and Garmin management.
+- **Garmin:** compact next-turn HUD, turn distance, simple route overview, GPS/route state and haptic cue. It does not replicate phone search/plan/discovery.
+
+See A8 for screen hierarchy, states, interaction, accessibility and acceptance criteria.
 
 ## 4. MVP boundary
 
 ### P0
-- Onboarding and clear location/permission status.
-- Interactive phone map with licensed basemap and current location.
-- Search for addresses, named places and POIs; select a pin manually as fallback.
-- Route calculation for motorbike/scooter, car, walking and bicycle, only where the configured provider profile supports them.
-- Route preview with route geometry, distance, duration, instructions and provider warnings.
-- Basic multi-stop route planning and stop reordering; if the selected engine does not support an operation, explain it rather than silently dropping stops.
-- Phone turn-by-turn navigation with visual cue, distance-to-turn, optional spoken prompts, off-route detection and network-dependent rerouting.
-- Garmin app install/reachability check, selected-device workflow, safe route transfer, compact watch guidance and visible sync status.
-- Cached route following on watch only after transfer integrity/activation is confirmed.
-- Trip summary and locally saved recent destinations.
+- Map/search/pin selection and clear permission/location states.
+- Route preview by explicit mode: scooter/motorbike, car, walk, bicycle.
+- Basic multi-stop planning and stop order retention within provider capability.
+- Phone turn-by-turn, voice preference, GPS quality state, off-route confirmation and online reroute.
+- Garmin compatibility/device selection, validated route transfer and truthful sync status.
+- Compact watch guidance and cached-route continuation after confirmed commit.
+- Recent/saved destinations, trip summary and user deletion controls.
+- Essential error/empty/offline states.
 
 ### P1
-- Alternative route comparison when provider supports it.
-- Curated route collections and discovery categories (food, viewpoints, scenic stops, places to visit).
-- Saved journeys, route notes, GPX export/import where licensing and privacy allow.
-- More refined activity profiles (trekking/MTB) after a separate access and safety review.
-- Traffic information from a licensed provider, clearly separated from base road/route data.
-- Phone offline map areas from a provider that explicitly permits offline downloads.
+- Curated discovery collections, nearby categories, saved journeys and route notes.
+- Alternative routes where supported.
+- Licensed traffic and incident source.
+- Phone offline map regions only where provider explicitly permits offline download.
+- Hiking/MTB after routing/access review.
 
-### P2 / explicitly deferred
-- Public transit, social feed, comments/ratings, public live-location sharing, user accounts/cloud sync, subscription tiers, fleet tracking, EV charging optimization and full offline maps on the watch.
-- Generic global "all vehicles" support.
-- Claims of traffic-aware or legally certified navigation.
+### P2 / deferred
+Public social feed, comments/ratings, public live-location sharing, cloud accounts/sync, subscriptions, fleet tracking, public transit, EV charging optimization and full offline map on watch.
 
 ## 5. Modes and routing policy
 
-| User-visible mode | First candidate profile | Release rule |
+| User-visible mode | Candidate | Release rule |
 |---|---|---|
-| Xe máy / scooter (primary) | Valhalla `motor_scooter` | Must pass Vietnam access/field fixtures; profile label is not legal classification |
-| Larger motorcycle / touring | Valhalla `motorcycle` (beta) | Do not expose until profile and route behavior are validated |
-| Ô tô | Valhalla `auto` | Validate one-way, turn restrictions, road class and restrictions |
-| Đi bộ | Valhalla `pedestrian` | Validate pedestrian access; do not reuse bicycle route |
-| Xe đạp | Valhalla `bicycle` | Validate cycleway/road access |
-| MTB / trekking | Separate later assessment | Not included in initial mode picker |
-| EV | Later assessment | Requires reliable vehicle range/charging data |
+| Xe máy / scooter | Valhalla `motor_scooter` | Must pass Vietnam access/field fixtures; not a legal vehicle class |
+| Touring motorcycle | Valhalla `motorcycle` (beta) | Do not expose until separately validated |
+| Ô tô | Valhalla `auto` | Validate road class, access, one-way and turn restrictions |
+| Đi bộ | Valhalla `pedestrian` | Validate pedestrian access |
+| Xe đạp | Valhalla `bicycle` | Validate bicycle access |
+| MTB/trekking | Later assessment | Not initial mode promise |
+| EV | Later assessment | Needs reliable range/charging data |
 
-A travel mode must change the routing engine's costing/access behavior, not just its icon. Never claim a road is legal for a mode from a provider profile name alone. Unknown or conflicting access data must produce a conservative route/warning or block the route.
+A mode must alter graph costing/access, not just the icon. Unknown or conflicting access data must not be disguised as certainty.
 
 ## 6. Architecture baseline
 
 ### Phone
-- Flutter/Dart.
-- Riverpod or an equivalent explicit state-management layer (final choice in A9).
-- MapLibre-compatible renderer with an OSM-derived tile source under a production license.
-- Provider-neutral routing/search interfaces.
-- Provisional routing engine: self-hosted Valhalla on OSM extracts.
-- Provisional search/geocoder: Photon pilot; compare Pelias for Vietnam.
-- Local persistence: SQLite through Drift or an equivalent migration-capable repository.
-- Garmin Connect IQ Mobile SDK adapter behind an app-owned interface. The current community wrapper is not accepted until selected-device targeting is solved.
+Flutter/Dart; Riverpod or equivalent explicit state management (freeze at A9); MapLibre-compatible renderer; licensed OSM-derived tiles; provider-neutral routing/search interfaces; provisional self-hosted Valhalla; Photon pilot vs Pelias; migration-capable SQLite/Drift; Garmin Connect IQ Mobile SDK adapter with selected-device targeting.
 
 ### Watch
-- Garmin Connect IQ Watch App written in Monkey C.
-- API 3.4 minimum candidate for fēnix 6S family.
-- Route repository, transfer manager, GPS qualification, bounded route matcher, maneuver/alert state and renderer abstraction.
-- Base 6S: custom renderer using supported graphics primitives; do not call native MapView.
-- 6S Pro/Sapphire: native MapView/MapTrackView path may be used only after exact model check and tests; custom fallback remains.
+Connect IQ Watch App in Monkey C; API 3.4 minimum candidate; active/pending route store; GPS qualification, bounded matcher, maneuver/alert state and renderer abstraction. Base 6S uses custom Graphics.Dc renderer. 6S Pro/Sapphire may use native MapView only after exact capability check and tests; retain custom fallback.
 
 ### Provider separation
-Provider-specific records, IDs and license/provenance metadata must not leak into canonical domain types. Any Google Maps Platform integration is a separately isolated provider mode requiring terms review. Do not combine Google Routes/Places-derived content with OSM/Garmin maps or persist restricted content outside allowed terms.
+Keep provider IDs, cache expiry, attribution and license metadata at adapter boundaries. Google data is not approved for the Garmin/OSM route pipeline under the current non-EEA restrictions. komoot API/data dependency is not available under current public API policy.
 
 ## 7. Phase A gates
 
-| Gate | Package | Deliverable |
-|---|---|---|
-| A0 | Product baseline | Product vision, users, modes, MVP and non-goals |
-| A1 | Functional requirements | Observable requirements, journeys, acceptance criteria |
-| A2 | Map/discovery/routing | Provider policy, data/licensing, profiles, Vietnam validation |
-| A3 | Domain/data model | Canonical entities, units, state and persistence contracts |
-| A4 | Garmin sync protocol | Versioned payload, transfer states, integrity and fallback |
-| A5 | Garmin capability | Exact device capabilities and hardware probes |
-| A6 | Navigation engine | GPS qualification, matching, maneuvers, alerts, reroute and arrival |
-| A7 | Offline/recovery/privacy/battery | Failure policies, retention, power and recovery |
-| A8 | UX specification | Information architecture, screens, state catalog, interaction and accessibility |
-| A9 | Design review/freeze | Resolve blockers or explicitly accept documented limits; freeze implementation backlog |
+A0 product baseline, A1 requirements, A2 map/discovery/routing, A3 domain model, A4 sync protocol, A5 Garmin capability, A6 navigation engine, A7 offline/privacy/battery, A8 UX specification and A9 formal design review/freeze.
 
-**No production implementation before A9.** A package can be specification-complete while its real-device validation remains open.
+A0–A8 are complete at specification level. A9 must audit requirement traceability, open risks, provider/legal conditions, hardware constraints, testability and implementation backlog.
+
+**No production implementation before A9 explicitly marks DESIGN FROZEN.**
 
 ## 8. Implementation phases after design freeze
 
-- **B — Flutter foundation:** project shell, architecture, dependency/toolchain pinning, CI and test framework.
-- **C — Phone map/search/routing:** renderer, provider adapters, route normalization and local trip persistence.
-- **D — Garmin app:** watch app lifecycle, renderer, GPS and route matching.
-- **E — Phone/watch integration:** SDK bridge, device selection, transfer protocol and reconciliation.
-- **F — Offline/performance:** route persistence, restart recovery, long-route, battery and memory profiling.
-- **G — QA/release:** acceptance tests, field tests, privacy/license review, documentation and packaging.
-
-Do not skip gates because a demo appears to work.
+- B Flutter foundation, toolchain and test infrastructure.
+- C Phone map/search/routing and route normalization.
+- D Garmin watch app, renderer, GPS and route matching.
+- E Garmin SDK bridge, selected-device transfer and reconciliation.
+- F Offline/recovery, performance and battery optimization.
+- G QA, field tests, licensing/privacy review and packaging.
 
 ## 9. Risks and release blockers
 
-- A valid route for one mode may be invalid for another; mode-specific route fixtures are mandatory.
-- OSM access tagging and coverage may be incomplete or wrong on local roads; field verification is essential.
-- Google Maps Platform's current non-EEA terms restrict Routes/Places/Geocoding content from use with non-Google maps and impose temporary coordinate caching limits; a Google API-based Garmin pipeline is not approved by this baseline.
-- komoot states it has no publicly accessible API.
-- fēnix 6S base has no MapView listing; Pro/Sapphire does.
-- `Communications.transmit()` has a current documentation/API-level discrepancy for 6S; app-level ACK cannot be assumed.
-- 32 KB per-value watch storage cap and device-varying total quota constrain payload blocks.
-- Watch GPS events, foreground lifecycle and battery need exact-hardware testing.
-- Routing, GPS matcher, off-route/arrival thresholds need field calibration.
-- A normal public OSM tile endpoint is not an offline tile distribution service.
+- OSM motorbike access quality and Vietnamese local road restrictions need field verification.
+- Google Routes/Places/Geocoding content has non-Google map restrictions for non-EEA accounts and route-coordinate cache limits; no mixed-provider pipeline without legal review.
+- komoot has no publicly accessible API.
+- fēnix 6S base lacks a MapView listing; Pro/Sapphire has.
+- `Communications.transmit()` API-level discrepancy means uplink cannot be assumed.
+- Watch storage max 32 KB/value, aggregate quota varies.
+- Phone/watch lifecycle, GPS and battery need exact-hardware tests.
+- Routing, GPS matching, alert, off-route and arrival thresholds need field calibration.
+- Standard OSM tile endpoint cannot be used for bulk offline downloads.
 
 ## 10. Current status
 
-A0–A7 have been rewritten for direction B at specification level on 2026-11-11. A8 is the next package. No code, provider deployment, simulator tests or physical-device tests are claimed. See [PROJECT_STATUS.md](PROJECT_STATUS.md).
+A0–A7 re-baselined at revision 2.0.0 and A8 UX specification v1.0.0 are committed to GitHub. No code, provider deployment, acceptance test, usability study or physical-device test is claimed. A9 is next. See [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## 11. Primary references
 
@@ -143,7 +116,6 @@ A0–A7 have been rewritten for direction B at specification level on 2026-11-11
 - Garmin MapView: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/MapView.html
 - Garmin Communications: https://developer.garmin.com/connect-iq/api-docs/Toybox/Communications.html
 - Garmin Application Storage: https://developer.garmin.com/connect-iq/api-docs/Toybox/Application/Storage.html
-- Garmin Position: https://developer.garmin.com/connect-iq/api-docs/Toybox/Position.html
 - Google Maps Platform terms: https://cloud.google.com/maps-platform/terms/maps-service-terms
 - Google two-wheeler API: https://developers.google.com/maps/documentation/routes/route_two_wheel
 - komoot API statement: https://support.komoot.com/hc/en-us/articles/10331570510618-komoot-API

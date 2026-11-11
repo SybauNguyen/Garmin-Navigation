@@ -2,18 +2,23 @@
 
 All entries describe specification/repository changes, not application releases.
 
+## 1.1.0 — 2026-11-11 — A8 UX specification
+
+- Added A8 UX specification for five-tab phone navigation, map/search/place/Explore/Plan/route preview/navigation/Trips/Garmin/settings flows.
+- Defined a distinct watch UX for 240×240 fēnix 6S: HUD, route overview, trip status and pause/arrival/error states.
+- Added interruption/error/empty states, safety, accessibility, localization and 24 UX acceptance criteria.
+- Updated project status and continuation point to A9 design review/freeze.
+- No wireframe, usability session, UI implementation or acceptance test is claimed.
+
 ## 1.0.0 — 2026-11-11 — Product re-baseline
 
-- Reframed the product around direction B: Google Maps-like daily map/search/navigation plus komoot-like trip planning and discovery.
-- Made the distinction explicit between product inspiration and permission to use third-party APIs/data.
-- Replaced the old provisional assumption that Google Routes/Places could simply be combined with OSM/Garmin content. Current non-EEA terms require a provider-isolation decision.
-- Re-centered the MVP on Vietnamese motorbike navigation, while retaining car, walking and bicycle profiles.
-- Kept OSM-derived tiles + MapLibre-compatible rendering and Valhalla as the primary technical candidates, subject to field, license and provider validation.
-- Re-stated Garmin fēnix 6S constraints: 240×240/API 3.4, native MapView only for listed Pro/Sapphire variants; watch-to-phone transmit remains a compile/runtime/physical-test gate.
-- Re-baselined A0–A7 to revision 2.0.0. Legacy A1–A6 counts are historical only; new test criteria replace, not silently inherit, them.
-- No implementation code or acceptance tests were executed.
+- Reframed product around direction B: Google Maps-like daily map/search/navigation plus komoot-like trip planning/discovery.
+- Clarified that product inspiration does not authorize third-party API/data reuse.
+- Re-based A0–A7 to revision 2.0.0 and committed the new specification set.
+- Recorded provider/legal constraints and Garmin fēnix 6S hardware verification gates.
+- No implementation code or acceptance tests executed.
 
 ## 0.7.0 — 2026-11-09 — Legacy baseline
 
-- Prior baseline captured A0–A6 specification work and A7 as the next work package.
-- This baseline is superseded by revision 1.0.0 after the product direction change.
+- Previous baseline captured A0–A6 specification work; A7 was the next work package.
+- Superseded by revision 1.0.0 after product direction change.
