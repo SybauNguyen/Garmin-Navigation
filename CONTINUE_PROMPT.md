@@ -10,7 +10,7 @@ Product direction: **B — Google Maps + komoot experience**. It means familiar 
 
 Current state:
 - A0–A7: re-baselined at revision 2.0.0.
-- A8: UX specification v1.0.0 complete at specification level; wireframes/usability validation not yet done.
+- A8: UX specification v2.0.0 complete at document level; 30 UX acceptance criteria defined; wireframe/usability/device validation not yet done.
 - **Next: A9 — Design Review & Freeze.**
 - Do not write production Flutter or Monkey C code until A9 explicitly states DESIGN FROZEN.
 

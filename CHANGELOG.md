@@ -2,6 +2,14 @@
 
 All entries describe specification/repository changes, not application releases.
 
+## 1.2.0 — 2026-11-11 — A8 aligned with A0–A7 revision 2.0.0
+
+- Upgraded A8 from 1.0.0 to 2.0.0 against the re-baselined A0–A7 product and platform contracts.
+- Clarified P0 motorbike/car versus P1 bicycle/walking mode presentation and the distinction between product mode and routing profile.
+- Added multi-stop alternative limitations, phone-only fallback, Connect IQ app-message terminology, conditional watch uplink and watch GPS inactive/resume behavior.
+- Expanded A8 traceability from 24 to 30 UX acceptance criteria.
+- Updated README, Master Plan, Project Status and Continuation Prompt. A9 remains next; no wireframe usability or physical-device UX test is claimed.
+
 ## 1.1.0 — 2026-11-11 — A8 UX specification
 
 - Added A8 UX specification for five-tab phone navigation, map/search/place/Explore/Plan/route preview/navigation/Trips/Garmin/settings flows.

@@ -3,7 +3,7 @@
 Phone-first navigation and trip-planning product inspired by the everyday practicality of Google Maps-style navigation and the route-planning/discovery experience of komoot, extended for motorized vehicles and Garmin fēnix 6S.
 
 > **Project direction:** B — Google Maps + komoot (experience references, not API/data dependencies)  
-> **Master Plan:** 1.1.0 · **A0–A7:** revision 2.0.0 · **A8:** 1.0.0 · **Updated:** 2026-11-11  
+> **Master Plan:** 1.2.0 · **A0–A7:** revision 2.0.0 · **A8:** 2.0.0 · **Updated:** 2026-11-11  
 > **Phase:** A — Product & System Design · **Design freeze:** No · **Implementation:** Not started
 
 ## Start here

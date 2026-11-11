@@ -1,7 +1,7 @@
 # A8 — UX Specification & Acceptance Criteria
 
-**Document ID:** GN-A8-001 · **Version:** 1.0.0 · **Date:** 2026-11-11  
-**Master Plan baseline:** 1.0.0 · **Product direction:** B — Google Maps + komoot experience  
+**Document ID:** GN-A8-001 · **Version:** 2.0.0 · **Date:** 2026-11-11  
+**Master Plan baseline:** 1.2.0 · **Product direction:** B — Google Maps + komoot experience  
 **Status:** UX specification complete at design level; no visual prototype, usability study or device test is claimed.
 
 ## 1. Purpose and design principles
@@ -277,7 +277,7 @@ P1:
 Use consistent Vietnamese messages:
 - “Đang tìm GPS” — acquiring a fix.
 - “GPS yếu” — fix exists but is not eligible for confident progress.
-- “Mất kết nối điện thoại” — BLE link unavailable; cached route may continue.
+- “Mất kết nối điện thoại” — Garmin/phone app-message link unavailable; cached route may continue.
 - “Không có Internet” — online search/reroute/traffic unavailable.
 - “Đã gửi, chưa xác nhận” — SDK send attempt without app-level confirmation.
 - “Đã đồng bộ” — only after verified application-level commit.
@@ -374,7 +374,7 @@ These are test specifications. None has been executed.
 - A8-AT-015: when multiple watches are connected, only the selected target can receive route data.
 - A8-AT-016: base fēnix 6S watch layout works without native MapView.
 - A8-AT-017: every essential 6S watch HUD field fits inside a tested round-screen safe area.
-- A8-AT-018: watch route guidance continues after BLE loss only when a valid committed route exists and GPS is eligible.
+- A8-AT-018: watch route guidance continues after phone-link loss only when a valid committed route exists and GPS is eligible.
 - A8-AT-019: arrival state is terminal and does not oscillate after a later GPS drift.
 - A8-AT-020: saved trip/place deletion has a clear confirmation and removes linked user-owned records.
 - A8-AT-021: primary status is not conveyed by color alone.
@@ -406,3 +406,63 @@ A9 must review:
 - implementation backlog and risk acceptance.
 
 A8 completion does **not** equal design freeze. A9 must explicitly classify each open item as resolved, accepted limitation, deferred or release blocker. Production code remains prohibited until DESIGN FROZEN is formally recorded.
+
+
+## 13. Alignment with the A0–A7 product baseline 2.0.0
+
+This revision supersedes the earlier A8 draft where its assumptions conflict with the re-baselined A0–A7 package set.
+
+### Product priority and transport modes
+
+- Everyday map/search/route preview/phone navigation remains the primary use case.
+- Scooter/ordinary motorbike and car are the P0 motorized modes; bicycle and walking are supported only where provider coverage and mode-specific access are validated. Touring/adventure motorcycle, hiking/MTB and EV are not implied MVP capabilities.
+- A user-facing travel mode and a routing-engine costing profile are separate values. The preview must identify the selected user-facing mode and must never silently replace a failed motorbike route with an automobile route.
+- Multi-stop planning preserves the exact stop order. A2 notes that route-wide alternatives may not be available for multipoint requests; the UI shows only alternatives returned by the selected provider and clearly labels any per-leg alternatives.
+
+### Provider and map consistency
+
+- Google Maps and komoot remain experience references only. Do not present their protected route or place data inside the OSM/MapLibre/Garmin pipeline.
+- MapLibre and OSM-derived licensed map data remain technical candidates, not a frozen tile-provider choice.
+- Offline map areas on the phone are not promised until a provider contract permits downloads. The public OSM standard tile service is not an offline map-pack source.
+- Do not label traffic as live unless a current licensed traffic source is configured and its freshness is known.
+
+### Garmin communication and device behavior
+
+- Describe the phone/watch path as Garmin Connect IQ app messaging through the supported Mobile SDK; do not describe it as a custom raw BLE GATT protocol.
+- Phone-side “send accepted” is not proof that the watch received, validated or committed a route. Keep separate UI states for sent/unconfirmed, received, validated and committed.
+- Watch-to-phone events remain conditional on exact Connect IQ API/device/firmware verification. Phone guidance and watch-local route following must not depend on unverified uplink.
+- Base fēnix 6S must work with a custom Graphics.Dc route renderer. Native MapView is an optional Pro/Sapphire enhancement only after exact compatibility confirmation.
+- Watch location updates are lifecycle-dependent. When the Connect IQ app becomes inactive, the UI must not imply continuous GPS/navigation; after resume, obtain a fresh eligible fix before advancing the maneuver.
+- Cached route guidance is available only while a valid committed route exists, the app is active and GPS is eligible. The watch is not a full offline map or offline routing engine.
+
+### UX state and visual review additions
+
+- The route preview distinguishes selected mode, provider profile limitation, route warning and stale provider/map data.
+- The active screen distinguishes GPS degraded/lost, network offline, phone/watch link loss, watch app inactive and route deviation. These states must not share one generic “disconnected” label.
+- For a multi-stop trip, identify the next stop and current leg; do not mix whole-trip totals with the current-leg remaining distance.
+- The watch Turn HUD gives maneuver arrow and distance-to-turn highest visual priority; remaining distance, mode, road label and connection state are secondary.
+- The base 6S screen safe area must be validated on a circular 240 × 240 display. A rectangular screenshot is not sufficient.
+
+## 14. Additional A0–A7 traceability acceptance criteria
+
+These extend the earlier A8-AT-001 through A8-AT-024. They are proposed tests, not execution evidence.
+
+- A8-AT-025 — Mode/profile separation: route preview shows the selected product mode and does not present a different engine profile as equivalent without an explicit reviewed mapping.
+- A8-AT-026 — Multi-stop capability: route preview never displays fabricated whole-trip alternatives when the provider does not return them.
+- A8-AT-027 — Phone-only fallback: all P0 phone navigation flows remain available when Garmin Connect/Connect IQ integration is unavailable.
+- A8-AT-028 — GPS lifecycle: when the watch app resumes from inactive state, the HUD shows GPS reacquisition and does not advance the maneuver from a stale fix.
+- A8-AT-029 — Watch offline boundary: the interface says cached route guidance, not offline maps or offline rerouting, when phone/network service is absent.
+- A8-AT-030 — Message transport truth: user-facing status does not imply raw BLE delivery or watch-side route commit from a phone SDK send callback alone.
+
+## 15. A8 completion status
+
+A8 v2.0.0 is complete as a written UX specification and traceability update. It defines five phone areas, primary journeys, screen/state catalogues, watch HUD/interaction, safety/accessibility requirements and 30 UX acceptance criteria.
+
+Not completed and not claimed:
+- high-fidelity/clickable phone wireframes;
+- watch visual prototype validated on the exact 6S variant;
+- task-based usability sessions;
+- outdoor readability/glove/button tests;
+- implementation, build or acceptance-test execution.
+
+A9 must complete the design review, inspect wireframes/prototypes and record residual risks before any production code is started.

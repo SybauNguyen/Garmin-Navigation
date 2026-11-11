@@ -1,7 +1,7 @@
 # Garmin Navigation — Master Product & Engineering Plan
 
 **Document ID:** GN-MASTER-001  
-**Version:** 1.1.0  
+**Version:** 1.2.0  
 **Updated:** 2026-11-11  
 **Status:** A0–A8 complete at specification level; A9 design review/freeze next  
 **Primary target:** Flutter phone app + Garmin Connect IQ app for fēnix 6S family
@@ -85,7 +85,15 @@ A0–A8 are complete at specification level. A9 must audit requirement traceabil
 
 **No production implementation before A9 explicitly marks DESIGN FROZEN.**
 
-## 8. Implementation phases after design freeze
+## 8. A8 UX baseline
+
+A8 v2.0.0 defines five phone destinations: Map, Explore, Plan, Trips and Garmin. Map is the daily-navigation entry point; Search and Place Details lead into quick route preview. Plan handles ordered stops, route preferences and per-leg review. Explore provides contextual discovery near a destination, stop or along a route. Trips stores planned/saved/completed journeys. Garmin manages one selected device and truthful transfer states.
+
+Phone navigation prioritizes one current maneuver, distance-to-turn, map context, remaining distance and ETA. Search/complex itinerary editing are not promoted during active driving. The watch prioritizes a large turn arrow and distance, short Vietnamese instruction, optional sourced road label and secondary remaining-route information. Base fēnix 6S uses custom Graphics.Dc rendering; Pro/Sapphire MapView remains optional. GPS reacquisition, inactive lifecycle, one-shot haptics, offline boundaries and unconfirmed sync are explicit UX states.
+
+A8 defines 30 acceptance criteria. Wireframes, task-based usability sessions, daylight legibility review and exact-watch validation have not been performed. See [A8 UX Specification](docs/08_UX_SPECIFICATION_A8.md).
+
+## 9. Implementation phases after design freeze
 
 - B Flutter foundation, toolchain and test infrastructure.
 - C Phone map/search/routing and route normalization.
@@ -94,7 +102,7 @@ A0–A8 are complete at specification level. A9 must audit requirement traceabil
 - F Offline/recovery, performance and battery optimization.
 - G QA, field tests, licensing/privacy review and packaging.
 
-## 9. Risks and release blockers
+## 10. Risks and release blockers
 
 - OSM motorbike access quality and Vietnamese local road restrictions need field verification.
 - Google Routes/Places/Geocoding content has non-Google map restrictions for non-EEA accounts and route-coordinate cache limits; no mixed-provider pipeline without legal review.
@@ -106,11 +114,11 @@ A0–A8 are complete at specification level. A9 must audit requirement traceabil
 - Routing, GPS matching, alert, off-route and arrival thresholds need field calibration.
 - Standard OSM tile endpoint cannot be used for bulk offline downloads.
 
-## 10. Current status
+## 11. Current status
 
-A0–A7 re-baselined at revision 2.0.0 and A8 UX specification v1.0.0 are committed to GitHub. No code, provider deployment, acceptance test, usability study or physical-device test is claimed. A9 is next. See [PROJECT_STATUS.md](PROJECT_STATUS.md).
+A0–A7 re-baselined at revision 2.0.0 and A8 UX specification v2.0.0 are committed to GitHub. No code, provider deployment, acceptance test, usability study or physical-device test is claimed. A9 is next. A8 has 30 UX acceptance criteria; none has been executed. Wireframes, usability sessions and exact-watch visual checks remain open. See [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
-## 11. Primary references
+## 12. Primary references
 
 - Garmin compatible devices: https://developer.garmin.com/connect-iq/compatible-devices
 - Garmin MapView: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/MapView.html

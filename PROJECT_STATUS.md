@@ -1,9 +1,9 @@
 # Garmin Navigation — Project Status
 
-**Master Plan:** 1.1.0  
+**Master Plan:** 1.2.0  
 **Product baseline:** A0 v2.0.0  
 **A1–A7 specification revision:** 2.0.0  
-**A8 UX specification:** 1.0.0  
+**A8 UX specification:** 2.0.0  
 **Updated:** 2026-11-11  
 **Phase:** A — Product & System Design  
 **Product direction:** B — Google Maps + komoot experience (not API/data coupling)  
@@ -13,7 +13,7 @@
 
 ## Current result
 
-A0–A7 were re-baselined for the current direction and committed in `f83c192`. A8 UX specification is now complete at design/specification level and committed separately. All documents describe intended behavior and verification criteria; they do not prove implementation or test execution.
+A0–A7 were re-baselined for the current direction and committed in `f83c192`. A8 UX specification v2.0.0 is complete at document level and aligned with A0–A7 revision 2.0.0. All documents describe intended behavior and verification criteria; they do not prove implementation or test execution.
 
 ## Next work package
 
@@ -61,7 +61,7 @@ Do not start production Flutter or Monkey C implementation until A9 explicitly a
 7. Multi-stop provider capability and alternatives behavior.
 8. Navigation thresholds require deterministic replay and field calibration.
 9. Offline storage, route length, battery and checkpoint policies need measurements.
-10. A8 wireframes and usability sessions remain to be produced before A9.
+10. A8 wireframes, task-based usability sessions and exact-watch visual checks remain to be executed during A9.
 11. No physical Garmin prototype test has been executed.
 
 ## Validation truth
@@ -71,7 +71,7 @@ Do not start production Flutter or Monkey C implementation until A9 explicitly a
 - No Flutter or Connect IQ production source exists in this repository.
 - No BLE throughput, route-transfer, storage, GPS, haptic, rendering or battery bench test has been completed.
 - No Hanoi route field fixture has been verified.
-- No usability test/wireframe test has been conducted.
+- No wireframe usability, outdoor legibility or physical-watch UX test has been conducted.
 - Design freeze is not approved.
 
 ## Continuation rule
