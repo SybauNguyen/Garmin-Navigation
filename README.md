@@ -3,7 +3,7 @@
 Phone-first navigation and trip-planning product inspired by the everyday practicality of Google Maps-style navigation and the route-planning/discovery experience of komoot, extended for motorized vehicles and Garmin fēnix 6S.
 
 > **Project direction:** B — Google Maps + komoot (experience references, not API/data dependencies)  
-> **Master Plan:** 1.2.0 · **A0–A7:** revision 2.0.0 · **A8:** 2.0.0 · **Updated:** 2026-11-11  
+> **Master Plan:** 1.3.0 · **A0–A7:** revision 2.0.0 · **A8:** 2.0.0 · **A9:** review 1.0.0 · **Updated:** 2026-11-11  
 > **Phase:** A — Product & System Design · **Design freeze:** No · **Implementation:** Not started
 
 ## Start here
@@ -21,6 +21,7 @@ Phone-first navigation and trip-planning product inspired by the everyday practi
 11. [A6 Navigation Engine](docs/06_NAVIGATION_ENGINE_A6.md)
 12. [A7 Offline, Recovery, Privacy & Battery](docs/07_OFFLINE_RECOVERY_PRIVACY_BATTERY_A7.md)
 13. [A8 UX Specification](docs/08_UX_SPECIFICATION_A8.md)
+14. [A9 Design Review & Freeze Gate](docs/09_DESIGN_REVIEW_A9.md)
 
 ## Important interpretation
 
@@ -44,12 +45,13 @@ Phone-first navigation and trip-planning product inspired by the everyday practi
     ├── 05_GARMIN_CAPABILITY_MATRIX_A5.md
     ├── 06_NAVIGATION_ENGINE_A6.md
     ├── 07_OFFLINE_RECOVERY_PRIVACY_BATTERY_A7.md
-    └── 08_UX_SPECIFICATION_A8.md
+    ├── 08_UX_SPECIFICATION_A8.md
+    └── 09_DESIGN_REVIEW_A9.md
 ```
 
 ## Status truth
 
-The repository contains specifications only. No Flutter application, Monkey C watch application, deployed routing server, route dataset, CI acceptance test, simulator run, usability study or physical-watch validation is claimed. Acceptance tests are requirements for future verification, not tests already passed. A9 design review/freeze is still required before implementation.
+The repository contains specifications only. No Flutter application, Monkey C watch application, deployed routing server, route dataset, CI acceptance test, simulator run, usability study or physical-watch validation is claimed. Acceptance tests are requirements for future verification, not tests already passed. A9 desk review is recorded, but DESIGN FROZEN remains No until mandatory wireframe/usability, Garmin, routing and payload gates are evidenced. See docs/09_DESIGN_REVIEW_A9.md.
 
 ## Reference sources
 

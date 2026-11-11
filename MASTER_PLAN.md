@@ -1,9 +1,9 @@
 # Garmin Navigation — Master Product & Engineering Plan
 
 **Document ID:** GN-MASTER-001  
-**Version:** 1.2.0  
+**Version:** 1.3.0  
 **Updated:** 2026-11-11  
-**Status:** A0–A8 complete at specification level; A9 design review/freeze next  
+**Status:** A0–A8 complete at specification level; A9 review recorded, mandatory closure gates open  
 **Primary target:** Flutter phone app + Garmin Connect IQ app for fēnix 6S family
 
 ## 1. Product direction
@@ -81,9 +81,9 @@ Keep provider IDs, cache expiry, attribution and license metadata at adapter bou
 
 A0 product baseline, A1 requirements, A2 map/discovery/routing, A3 domain model, A4 sync protocol, A5 Garmin capability, A6 navigation engine, A7 offline/privacy/battery, A8 UX specification and A9 formal design review/freeze.
 
-A0–A8 are complete at specification level. A9 must audit requirement traceability, open risks, provider/legal conditions, hardware constraints, testability and implementation backlog.
+A0–A8 are complete at specification level. A9 v1.0.0 records the traceability audit, architecture decisions, risk register, freeze gates and post-freeze implementation backlog. The desk review did not approve DESIGN FROZEN because wireframe/usability evidence, exact-device communication proof, Hanoi motorbike validation and base-6S payload/storage measurements remain open.
 
-**No production implementation before A9 explicitly marks DESIGN FROZEN.**
+**No production implementation before A9 explicitly marks DESIGN FROZEN.** See [A9 Design Review](docs/09_DESIGN_REVIEW_A9.md).
 
 ## 8. A8 UX baseline
 
@@ -94,6 +94,17 @@ Phone navigation prioritizes one current maneuver, distance-to-turn, map context
 A8 defines 30 acceptance criteria. Wireframes, task-based usability sessions, daylight legibility review and exact-watch validation have not been performed. See [A8 UX Specification](docs/08_UX_SPECIFICATION_A8.md).
 
 ## 9. Implementation phases after design freeze
+
+A9 is still open. The mandatory pre-freeze gates are:
+- reviewed low-fidelity wireframes for eight phone screens and four base-6S watch layouts, plus a moderated stationary usability walkthrough;
+- exact fēnix 6S variant/firmware and Connect IQ compile/runtime tests;
+- Garmin Mobile SDK native bridge proof and unambiguous selected-device targeting;
+- Hanoi motorbike route fixtures and provider/search evaluation;
+- base-6S route payload/storage benchmark;
+- deterministic navigation replay and calibration plan;
+- Android proof and a separate iOS bridge verification path.
+
+Map provider rights and privacy/provider review must close before external distribution; offline map packs stay disabled unless explicitly licensed. The full gate definitions and risk register are in [A9](docs/09_DESIGN_REVIEW_A9.md).
 
 - B Flutter foundation, toolchain and test infrastructure.
 - C Phone map/search/routing and route normalization.
@@ -116,7 +127,7 @@ A8 defines 30 acceptance criteria. Wireframes, task-based usability sessions, da
 
 ## 11. Current status
 
-A0–A7 re-baselined at revision 2.0.0 and A8 UX specification v2.0.0 are committed to GitHub. No code, provider deployment, acceptance test, usability study or physical-device test is claimed. A9 is next. A8 has 30 UX acceptance criteria; none has been executed. Wireframes, usability sessions and exact-watch visual checks remain open. See [PROJECT_STATUS.md](PROJECT_STATUS.md).
+A0–A7 re-baselined at revision 2.0.0, A8 UX specification v2.0.0 and A9 review v1.0.0 are committed to GitHub. No production code, provider deployment, acceptance test, usability study or physical-device test is claimed. A9 review is recorded but DESIGN FROZEN remains No. See [PROJECT_STATUS.md](PROJECT_STATUS.md) and [A9 Design Review](docs/09_DESIGN_REVIEW_A9.md).
 
 ## 12. Primary references
 

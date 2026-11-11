@@ -2,6 +2,14 @@
 
 All entries describe specification/repository changes, not application releases.
 
+## 1.3.0 — 2026-11-11 — A9 design review and freeze gates
+
+- Added A9 traceability review across A0–A8, architecture decisions, risk register and implementation backlog.
+- Recorded the formal outcome: design freeze is not approved; production code remains blocked pending explicit evidence.
+- Made the fēnix 6S API 3.4 versus Communications.transmit() API 4.0.4 discrepancy an explicit compile/device gate.
+- Added gates for Garmin Mobile SDK selected-device targeting, Hanoi motorbike routes, base-6S route/storage budget, wireframe/usability and navigation calibration.
+- Updated README, Master Plan, Project Status and Continuation Prompt. No production implementation or test pass is claimed.
+
 ## 1.2.0 — 2026-11-11 — A8 aligned with A0–A7 revision 2.0.0
 
 - Upgraded A8 from 1.0.0 to 2.0.0 against the re-baselined A0–A7 product and platform contracts.
